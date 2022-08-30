@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Øvingsoppgave 2 - variabler</title>
+</head>
+<body>
+    <p id="melding"></p>
+
+    <script>
+        //script-tagen over er avsluttet her.
+
+        const user_name = "Marius"
+        //Tekst-strengen Marius er avsluttet med gåsetegn
+
+        const user_birthyear = 1983
+        //const var feilstavet med en t for mye
+
+        const age = 2022 - user_birthyear
+        //variabelen user_birthyear var feilstavet (= i stedet for _)
+
+        const utskrift = "Hei" + user_name + " (" + age + "år")
+        //Det manglet et pluss-tegn i konkatineringen foran user_name-variabelen
+
+        document.getElementById("melding").innerHTML = utskrift
+    </script>
+</body>
+</html>

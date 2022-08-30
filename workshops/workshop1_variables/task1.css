@@ -1,0 +1,49 @@
+@import "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css";
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+
+html, body {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 16px;
+}
+
+div, section, aside, article, span {
+    box-sizing: border-box;
+}
+
+#gamearea {
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    color: #fff;
+    background-image: url("img/background.png");
+    background-repeat: repeat;
+    position: relative;
+}
+
+#hud-top {
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display:flex;
+    justify-content: space-around;
+}
+#hud-top div {
+    padding: .5rem;
+}
+
+#hud-top span {
+    font-size: 1.3rem;
+    margin-top: -30px;
+    margin-left: 3rem;
+    display: block;
+}
+
+#hud-inventory {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background: #333;
+    padding: 5px;
+}

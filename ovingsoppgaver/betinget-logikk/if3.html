@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Øvingsoppgave 3</title>
+  </head>
+  <body>
+    <p id="utskrift"></p>
+
+    <script>
+      //Gjør klar variabler for alle barna, med kjønn som verdi
+      const barn1 = "gutt";
+      const barn2 = "jente";
+      const barn3 = "jente";
+      //Gjør klar en variabel for utskrift
+      let utskrift = "";
+      //Gjør klar variabler for å telle barn
+      let antall_gutter = 0;
+      let antall_jenter = 0;
+      //if-test for første barnet. Dersom det er gutt, legg til en i variabelen for gutte-telling (antall_gutter)
+      //Hvis ikke, legg til en i variabelen for jentetelling
+      if (barn1 === "gutt") {
+        antall_gutter += 1;
+      } else {
+        antall_jenter += 1;
+      }
+      //if-test for andre barnet, med samme betingelser og funksjoner som første.
+      if (barn2 === "gutt") {
+        antall_gutter += 1;
+      } else {
+        antall_jenter += 1;
+      }
+      //if-test for tredje barnet, med samme betingelser og funksjoner som de to første.
+      if (barn3 === "gutt") {
+        antall_gutter += 1;
+      } else {
+        antall_jenter += 1;
+      }
+      //Så konkatinerer vi (kan også fordelaktig bruke template literals) variabler for telling og tekst som en verdi i variabelen utskrift
+      utskrift = "Gutter: " + antall_gutter + ", Jenter: " + antall_jenter;
+      //og skriver ut innholdet i utskrift til HTML-elementet med id utskrift.
+      document.getElementById("utskrift").innerHTML = utskrift;
+    </script>
+  </body>
+</html>

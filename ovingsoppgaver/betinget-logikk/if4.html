@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="utskrift"></p>
+
+    <!--Kommentar-->
+    <script>
+      //Deklarerer to variabler for oppnådd karakter i to kurs
+      const ITF19019_grade = "A";
+      const ITF10511_grade = "F";
+      //Deklarerer to variabler med boolske verdier for å se om kurs er fullført
+      //Den boolske verdien som lagres i variabelen bestemmes av en betingelse, skrevet med en ternary operator
+      const ITF19019_passed = ITF19019_grade === "F" ? true : false;
+      const ITF10511_passed = ITF10511_grade === "F" ? true : false;
+      //Deklarerer en variabel for telling
+      let countPassed = 0;
+      //En if-test for å sjekke om ITF19019 er bestått (_passed = true)
+      //Hvis den er det, skal vi oppdatere telleren i variabelen countPassed med 1.
+      if (ITF19019_passed === true) {
+        countPassed += 1;
+      }
+      //En if-test for å sjekke om ITF10511 er bestått (_passed = true)
+      //Hvis den er det, skal vi oppdatere telleren i variabelen countPassed med 1.
+      if (ITF10511_passed === true) {
+        countPassed += 1;
+      }
+      //Lager en variabel med tekst som skal printes, ved bruk av template literals
+      const printText = `Du har bestått ${countPassed} av 2 kurs`;
+      //Skriver ut teksten lagret i variabelen printText til HTML-elementet med id utskrift
+      document.getElementById("utskrift").innerHTML = printText;
+    </script>
+  </body>
+</html>

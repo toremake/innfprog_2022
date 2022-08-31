@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Øvingsoppgave 2</title>
+  </head>
+  <body>
+    <!-- gjør klar en <p>-tag for utskrift -->
+    <p id="utskrift"></p>
+
+    <script>
+      //Deklarerer en variabel med alder
+      const alder = 21;
+      //Deklarerer en variabel for å lagre teksten som skal skrives ut
+      let utskrift = "";
+
+      //Så lager vi en if-elseif-test
+      //Første betingelse er dersom alder er mindre enn 18: lagre teksten "...ikke myndig" i variabelen utskrift
+      //Andre betingelse er dersom du er større eller lik 18 OG mindre eller lik 62: lagre teksten "...myndig, klar for studier" i variabelen utskrift
+      //For alle andre betingelser (else): lagre teksten "...pensjonsklar" i variabelen utskrift
+      if (alder < 18) {
+        utskrift = "Du er ikke myndig";
+      } else if (alder >= 18 && alder <= 62) {
+        utskrift = "Du er myndig og klar for studier eller arbeidslivet";
+      } else {
+        utskrift = "Du er pensjonsklar!";
+      }
+
+      //til slutt; skriv teksten lagret i variabelen utskrift til <p>-tagen med id utskrift:
+      document.getElementById("utskrift").innerHTML = Utskrift;
+    </script>
+  </body>
+</html>

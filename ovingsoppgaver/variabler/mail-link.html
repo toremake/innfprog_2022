@@ -12,7 +12,10 @@
         //Create variables
         const name = "Marius"
         const email = "toremake@hiof.no"
+
+        //Build the email link with template literal:
         const emailLink = `<a href="mailto:${email}">Send mail til ${name}</a>`
+        //Print the email link to the HTML element with id maillink
         document.getElementById("maillink").innerHTML = emailLink
     </script>
 </body>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Workshop 1: Variabler</title>
+    <link href="task1.css" rel="stylesheet" media="all">
+</head>
+<body>
+    <div id="gamearea">
+        <section id="hud-top">
+            <div id="lives"><img src="img/potions.png" /> <span id="lives-count">0</span></div>
+            <div id="coins"><img src="img/coins.png" /> <span id="coins-count">0</span></div>
+            <div id="player">
+                <img src="img/person.png" />
+                <span id="playername">Marius</span>
+            </div>
+            <div id="points"><img src="img/points.png" /> <span id="points-count">0</span></div>
+            <!-- Oppgave 6: opprettet HTML-struktur for å skrive ut level -->
+            <div id="level">Level: <span id="level-count">0</span></div>
+        </section>
+        <aside id="hud-inventory">
+            <h3>Armory</h3>
+            <table id="showhide">
+                <tr>
+                    <td><img src="img/longsword.png"></td>
+                    <td>Level: <span id="weapon-longsword"></span></td>
+                </tr>
+                <tr>
+                    <td><img src="img/warhammer.png"></td>
+                    <td>Level: <span id="weapon-warhammer"></span></td>
+                </tr>
+                <tr>
+                    <td><img src="img/battleaxe.png"></td>
+                    <td>Level: <span id="weapon-battleaxe"></span></td>
+                </tr>
+                <tr>
+                    <td><img src="img/armour.png"></td>
+                    <td>Level: <span id="weapon-armour"></span></td>
+                </tr>
+            </table>
+        </aside>
+    </div>
+
+    <script>
+        //Oppgave 1: Spillernavn
+        const playerName = "Hiof"
+        document.getElementById("playername").innerHTML = playerName
+        //Oppgave 2: Penger
+        let coins = 15
+        document.getElementById("coins-count").innerHTML = coins
+        //Oppgave 3: Liv
+        let lives = 5
+        document.getElementById("lives-count").innerHTML = lives
+        //Oppgave 4: Våpen-nivåer:
+        let longsword = 1
+        let warhammer = 4
+        let battleaxe = 2
+        let armour = 3
+        document.getElementById("weapon-longsword").innerHTML = longsword
+        document.getElementById("weapon-warhammer").innerHTML = warhammer
+        document.getElementById("weapon-battleaxe").innerHTML = battleaxe
+        document.getElementById("weapon-armour").innerHTML = armour
+        //Oppgave 5: Utregning av poeng
+        let points = (coins * 5) + (longsword * 5) + (warhammer * 15) + (battleaxe * 20) + (armour * 25)
+        document.getElementById("points-count").innerHTML = points
+        //Oppgave 6: Utskrift av level
+        let level = 1
+        document.getElementById("level-count").innerHTML = level
+    </script>
+</body>
+</html>

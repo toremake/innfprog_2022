@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrayer/Objecter - Øvingsoppgave 3</title>
+</head>
+<body>
+    <p id="utskrift"></p>
+
+    <script>
+        //Lag variabel med array:
+        const dyr = ["Hund", "Katt", "Måke", "Hest", "Pinnsvin", "Ekorn", "Sau", "Geit", "Gris", "Ku"]
+
+        //Legg til to dyr i arrayen
+        dyr.push("Villsvin","Slange")
+
+        //Sorter array alfabetisk
+        dyr.sort()
+
+        //Lagre antall dyr i arrayen
+        const antallDyr = dyr.length
+
+        //ÅPNE KONSOLLEN FOR Å SE UTSKRIFT AV DE ULIKE METODENE I LØSNINGSFORSLAGET
+        //Kun metoden med .toString() skrives ut til <p id="utskrift">
+
+        //Setning som skal skrives ut: bruke indexer:
+        const setningIndex = `Antall dyr: ${antallDyr}. 
+        ${dyr[0]}, ${dyr[1]}, ${dyr[2]}, ${dyr[3]}, ${dyr[4]}, ${dyr[5]}, ${dyr[6]}, 
+        ${dyr[7]}, ${dyr[8]}, ${dyr[9]}, ${dyr[10]}, ${dyr[11]}.`
+        console.log("SETNING BYGGET MED INDEXER: ")
+        console.log(setningIndex)
+
+        //Setning som skal skrives ut: bruke .toString():
+        const setningToString = `Antall dyr: ${antallDyr}. ${dyr.toString()}`
+        console.log("SETNING BYGGET MED .toString():")
+        console.log(setningToString)
+        //SKriv ut til HTML:
+        document.getElementById("utskrift").innerHTML = setningToString
+
+        //Setning som skal skrives ut: bruke .join():
+        const setningJoin = `Antall dyr: ${antallDyr}. ${dyr.join(", ")}`
+        console.log("SETNING BYGGET MED .join(', '):")
+        console.log(setningJoin)
+
+        //Setning som skal skrives ut: bruke .map():
+        const setningMap = `Antall dyr: ${antallDyr}. ${dyr.map((d, index) => `${d}`)}`
+        console.log("SETNING BYGGET MED .map():")
+        console.log(setningMap)
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrayer/Objecter - Øvingsoppgave 6</title>
+</head>
+<body>
+    <!-- h2-tag, kun tatt med for gøy -->
+    <h1>iOS games</h1>
+    <ul id="filter">
+
+    </ul>
+    <script>
+        //Array of objects with games and platforms
+        const games = [
+            {
+            title: "Angry Birds",
+            platforms: ["iOS", "Android"]
+            },
+            {
+            title: "Nongram",
+            platforms: ["Android"]
+            },
+            {
+            title: "Plants vs Zombies",
+            platforms: ["iOS", "Android", "Windows", "MacOS"]
+            },
+            {
+            title: "Punball",
+            platforms: ["Windows", "Android"]
+            },
+            {
+            title: "Planet Zoo",
+            platforms: ["Windows", "MacOS"]
+            },
+            {
+            title: "Woordle",
+            platforms: ["iOS", "MacOS"]
+            }
+        ]
+
+        //Use filter to make array with games including "iOS" in platforms-key
+        const iOSgames = games.filter((game) => game.platforms.includes("iOS"))
+
+        //map the results in iOSgames to the list:
+        document.getElementById("filter").innerHTML = iOSgames.map((game) => `<li>${game.title}</li>`).join('')
+        //the .join('') is used to override .map()'s use of toString() to print commas:
+        //https://stackoverflow.com/questions/45812160/unexpected-comma-using-map
+    </script>
+</body>
+</html>

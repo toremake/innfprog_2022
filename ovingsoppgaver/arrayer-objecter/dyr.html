@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrayer/Objecter - Øvingsoppgave 1</title>
+</head>
+<body>
+    <p id="utskrift"></p>
+
+    <script>
+        //Lag variabel med array:
+        const dyr = ["Hund", "Katt", "Måke", "Hest", "Pinnsvin", "Ekorn", "Sau", "Geit", "Gris", "Ku"]
+
+        //Template literal med dyrene på index 3 og 7
+        const setning = `Her er det listet opp noen dyr, for eksempel ${dyr[3]} og ${dyr[7]}`
+
+        //Skriv ut setningen til p#utskrift:
+        document.getElementById("utskrift").innerHTML = setning
+    </script>
+</body>
+</html>

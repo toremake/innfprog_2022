@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrayer/Objecter - Øvingsoppgave 5</title>
+</head>
+<body>
+    <!-- h2-tag, kun tatt med for gøy -->
+    <h2>Important historical tect-events</h2>
+    <ul id="events">
+
+    </ul>
+    <script>
+        //Lag variabel events med en array med objecter
+        //Hvert object har nøklene year og event
+        const events = [
+            {year: 1969, event: "The creation of ARPANET"},
+            {year: 1971, event: "The first email is sent"},
+            {year: 1981, event: "IBM launces a PC"},
+            {year: 1990, event: "Tim Berners Lee launches the first website"},
+            {year: 1998, event: "Google was founded"}
+        ]
+
+        //Gjør klar en variabel for å bygge HTML-struktur
+        let eventListHTML = ""
+
+        //.map() gjennom arraye, og bygg liste:
+        events.map((event) => eventListHTML += `<li>${event.year}: ${event.event}</li>`)
+
+        //Skriv ut HTML-liste i ul#events
+        document.getElementById("events").innerHTML = eventListHTML
+        
+    </script>
+</body>
+</html>

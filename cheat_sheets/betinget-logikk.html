@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betinget logikk Cheat Sheet</title>
+    <style>
+        p {
+            font-size: 25px;
+            padding: 10px;
+        }
+        .class-asleep {
+            background: #333;
+            color: #ccc;
+        }
+        .class-awake {
+            background: #128a2e;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h2>Er du myndig?</h2>
+    <p id="myndig-utskrift"></p>
+
+    <h2>Har fått tilgang:</h2>
+    <p id="tilgang-utskrift"></p>
+
+    <h2>Er vi i gang?</h2>
+    <div id="igang-utskrift"></div>
+
+    <script>
+        const age = 39
+        //If-test for å sjekke om alder er 18 år eller over
+        if(age >= 18) {
+            document.getElementById("myndig-utskrift").innerHTML = "Ja."
+        } else {
+            document.getElementById("myndig-utskrift").innerHTML = "Nei."
+        }
+
+        //TILGANGSSJEKK:
+        const userInput = 3333
+        const te = document.getElementById("tilgang-utskrift")
+
+        if(userInput === 1234) {
+            te.innerHTML = "Innvilget"
+        } else if(userInput === 4321) {
+            te.innerHTML = "Innvilget"
+        } else if(userInput === 3333) {
+            te.innerHTML = "Innvilget"
+        } else {
+            te.innerHTML = "Avvist"
+        }
+
+        //Kan også skrives med logiske operatorer:
+        //if(userInput === 1234 || userInput === 4321 || userInput === 3333) 
+
+        //IGANG-SJEKK
+        const iGangDiv = document.getElementById("igang-utskrift")
+        const time = 8
+        const awake = time > 6 ? true : false
+
+        /* Linje 48 er ternary operator for denne koden:
+        let awake = false;
+        if(time > 6) {
+            awake = true 
+        } else {
+            awake = false
+        } */
+
+        iGangDiv.innerHTML = `<p class="${awake ? "class-awake" : "class-asleep"}">${awake ? "Du er våken" : "Du sover"}</p>`
+    </script>
+</body>
+</html>

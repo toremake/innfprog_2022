@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgave 3 - Løkker</title>
+</head>
+<body>
+    <ul id="animals"></ul>
+
+    <script>
+        //Lage klar en array:
+        const animals = ["Horse", "Cat", "Dog", "Sheep", "Squirrel", "Unicorn", "Weasel", "Panda", "Fox"]
+
+        //Lage klar en tom tekststreng
+        let htmlString = ""
+
+        //Kjøre for-løkke med counter som starter på 0 (samme som første index i arrayen), 
+        //går så lenge counter er mindre enn lengden på animals-arrayen,
+        //og legger 1 til counter for hver runde løkken kjører
+        for(let counter = 0; counter < animals.length; counter++) {
+            //Bygger htmlString ved å refere til animals[index] for hver runde løkken kjører
+            //index er tallet i counter-telleren:
+            htmlString += `<li>${animals[counter]}</li>`
+        }
+
+        //Så skriver vi ut htmlString til <ul>-en:
+        document.getElementById("animals").innerHTML = htmlString
+    </script>
+</body>
+</html>

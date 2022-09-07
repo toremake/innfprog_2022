@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgave 1 - Løkker</title>
+</head>
+<body>
+    <ul id="nedtelling">
+
+    </ul>
+
+    <script>
+        //Lag klar tom HTML-variabel
+        let htmlString = ""
+
+        //for-løkke som starter på 10, teller så lenge teller er større eller lik 0, og trekker fra en for hver runde løkken går:
+        for(let teller = 10; teller >= 0; teller--) {
+            //Oppgave 1: kommentert ut til fordel for oppgave 1.1:
+            //htmlString += `<li>${teller}</li>`
+
+            //Oppgave 1.1: Løst med ternary operator.
+            htmlString += `<li>${teller === 0 ? "We have take-off" : teller}</li>`
+            
+            /* Oppgave 1.1 kan også løses med en if/else-setning:
+            
+                if(teller === 0) {
+                    htmlString += `<li>We have take-off</li>`
+                } else {
+                    htmlString += `<li>${teller}</li>`
+                }
+                
+            */
+        }
+
+        //Skriver ut htmlString inn i ul med id nedtelling:
+        document.getElementById("nedtelling").innerHTML = htmlString
+    </script>
+</body>
+</html>

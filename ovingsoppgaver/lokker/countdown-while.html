@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgave 2 - Løkker</title>
+</head>
+<body>
+    <ul id="nedtelling">
+
+    </ul>
+
+    <script>
+        //Lag klar tom HTML-variabel
+        let htmlString = ""
+
+        //Gjør klar teller
+        let teller = 10
+        
+        //while-løkke som går så lenge teller er større eller lik 0
+        while(teller >= 0) {
+
+            //Oppgave 2.1: Løst med ternary operator.
+            //Se Oppgave 1 og countdown.html-løsningsforslaget for if/else-test
+            htmlString += `<li>${teller === 0 ? "We have take-off" : teller}</li>`
+
+            //I while-løkker må vi huske å redigere telleren inne i løkken:
+            teller--
+            
+        }
+
+        //Skriver ut htmlString inn i ul med id nedtelling:
+        document.getElementById("nedtelling").innerHTML = htmlString
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Øvingsoppgave 3 - Funksjoner</title>
+</head>
+<body>
+    <p id="name"></p>
+    <p id="age"></p>
+    <p id="mail"></p>
+
+    <script>
+        //Lag en funksjon, kalt namePrint(), som...
+        function namePrint(name = "Ikke oppgitt", birthyear = "Ikke oppgitt", email = "Ikke oppgitt") {
+            //...skriver ut verdien av parameteren name til #name, og...
+            document.getElementById("name").innerHTML = name
+            //...sjekker om birthyear er "Ikke oppgitt"...
+            if(birthyear === "Ikke oppgitt") {
+                //...er den det, skriv ut "Ikke oppgitt"...
+                document.getElementById("age").innerHTML = birthyear
+            //...ellers...
+            } else {
+                //...sørg for at datatypen blir et tall...
+                const birthYearNumber = Number(birthyear)
+                //...og regn ut alderen, lagret i variabelen age...
+                const age = 2022 - birthYearNumber
+                //...og skriv alder ut til #age
+                document.getElementById("age").innerHTML = age
+            }
+            //...skriver ut verdien av parameteren email til #mail.
+            document.getElementById("mail").innerHTML = email
+        }
+
+        //Kjør funksjonen med og uten parametere for å se at dette fungerer.
+        namePrint("Marius", 1983)
+    </script>
+</body>
+</html>

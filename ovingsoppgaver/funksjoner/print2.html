@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Øvingsoppgave 2 - Funksjoner</title>
+</head>
+<body>
+    <p id="name"></p>
+    <p id="age"></p>
+    <p id="mail"></p>
+
+    <script>
+        //Lag en funksjon, kalt namePrint(), som...
+        function namePrint(name, birthyear, email) {
+            //...skriver ut verdien av parameteren name til #name, og...
+            document.getElementById("name").innerHTML = name
+            //...skriver ut resultatet av 2022 - verdien av parameteren birthyear til #age, og...
+            document.getElementById("age").innerHTML = 2022 - birthyear
+            //...skriver ut verdien av parameteren email til #mail.
+            document.getElementById("mail").innerHTML = email
+        }
+
+        //Kjør funksjonen med de tre forventede parameterne name, birthyear og email
+        namePrint("Marius", 1983, "toremake@hiof.no")
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Øvingsoppgave 1 - Funksjoner</title>
+</head>
+<body>
+    <p id="name"></p>
+    <p id="mail"></p>
+
+    <script>
+        //Lag en funksjon, kalt namePrint(), som skriver to tekststrenger til <p>-tagene
+        function namePrint() {
+            document.getElementById("name").innerHTML = "Marius Akerbæk"
+            document.getElementById("mail").innerHTML = "toremake@hiof.no"
+        }
+
+        //Kjør funksjonen
+        namePrint()
+    </script>
+</body>
+</html>

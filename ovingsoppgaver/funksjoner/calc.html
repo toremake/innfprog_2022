@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Øvingsoppgave 4 - Funksjoner</title>
+    <style>
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <ul id="results"></ul>
+
+    <script>
+        //Opprett funksjon som tar imot to tall, standardverdi 0
+        function calculator(num1 = 0, num2 = 0) {
+            //Lag variabler som lagrer resultatet av regnestykkene av parameterne
+            const sumAdd = num1 + num2
+            const sumSub = num1 - num2
+            const sumDiv = num1 / num2
+            const sumMul = num1 * num2
+
+            //Bygg en template literal med listeelementer, 
+            //(Oppg. 4.1) som sjekker resultatet og skriver ut class="red" dersom resultatet er mindre enn 0
+            document.getElementById("results").innerHTML = `
+                <li ${sumAdd < 0 ? `class="red"` : null}>${num1} + ${num2} = ${sumAdd}</li>
+                <li ${sumSub < 0 ? `class="red"` : null}>${num1} - ${num2} = ${sumSub}</li>
+                <li ${sumDiv < 0 ? `class="red"` : null}>${num1} / ${num2} = ${sumDiv}</li>
+                <li ${sumMul < 0 ? `class="red"` : null}>${num1} * ${num2} = ${sumMul}</li>
+            `
+        }
+
+        //Kjør funksjonen med to tall
+        calculator(4,8)
+    </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Workshop 1: Variabler</title>
+    <link href="task2.css" rel="stylesheet" media="all">
+</head>
+<body>
+    <div id="gamearea">
+        <section id="hud-top">
+            <div id="lives"><img src="img/potions.png" /> <span id="lives-count">0</span></div>
+            <div id="coins"><img src="img/coins.png" /> <span id="coins-count">0</span></div>
+            <div id="player">
+                <img src="img/person.png" />
+                <span id="playername">Marius</span>
+            </div>
+            <div id="points"><img src="img/points.png" /> <span id="points-count">0</span></div>
+            <!-- Oppgave 6: opprettet HTML-struktur for å skrive ut level -->
+            <div id="level">Level: <span id="level-count">0</span></div>
+        </section>
+        <aside id="hud-inventory">
+            <h3>Armory</h3>
+            <table id="showhide">
+                <!-- 
+                <tr>
+                    <td><img src="img/longsword.png"></td>
+                    <td>Level: <span id="weapon-longsword"></span></td>
+                </tr>
+                
+                <tr>
+                    <td><img src="img/warhammer.png"></td>
+                    <td>Level: <span id="weapon-warhammer"></span></td>
+                </tr>
+                <tr>
+                    <td><img src="img/battleaxe.png"></td>
+                    <td>Level: <span id="weapon-battleaxe"></span></td>
+                </tr>
+                <tr>
+                    <td><img src="img/armour.png"></td>
+                    <td>Level: <span id="weapon-armour"></span></td>
+                </tr>
+                -->
+            </table>
+        </aside>
+    </div>
+
+    <script>
+        //Oppgave 1: Spillernavn
+        const playerName = "Hiof"
+        document.getElementById("playername").innerHTML = playerName
+        //Oppgave 2: Penger
+        let coins = 10
+        let coinsPrint = ""
+        if(coins > 0) {
+            coinsPrint = coins
+        } else {
+            coinsPrint = "Collect some coins"
+        }
+        document.getElementById("coins-count").innerHTML = coinsPrint
+        //Oppgave 3: Liv
+        let lives = 1
+        const livesPrint = document.getElementById("lives-count")
+        livesPrint.innerHTML = lives
+        //Workshop 2, oppgave 3:
+        if(lives < 2) {
+            livesPrint.style.color = "red"
+        }
+
+        //Oppgave 4: Våpen-nivåer:
+        let longsword = 11
+        let warhammer = 14
+        let battleaxe = 12
+        let armour = 13
+
+        //Workshop 2, oppgave 2
+        /* Den følgende koden er kommentert ut til fordel for løsningen av Workshop 2, oppgave 4 (se linje 104)
+        if(longsword >= 10) {
+            document.getElementById("weapon-longsword").style.color = "gold"
+        }
+
+        const warhammerElement = document.getElementById("weapon-warhammer")
+        if(warhammer >= 10) {
+            warhammerElement.style.color = "gold"
+        }
+
+        const battleaxeElement = document.getElementById("weapon-battleaxe")
+        if(battleaxe >= 10) {
+            battleaxeElement.style.color = "gold"
+        }
+
+        const armourElement = document.getElementById("weapon-armour")
+        if(armour >= 10) {
+            armourElement.style.color = "gold"
+        }
+
+        //document.getElementById("weapon-longsword").innerHTML = longsword
+        warhammerElement.innerHTML = warhammer
+        battleaxeElement.innerHTML = battleaxe
+        armourElement.innerHTML = armour
+        */
+
+        //Workshop 2, oppgave 4
+        const armoryTable = document.getElementById("showhide")
+       
+        if(longsword > 0) {
+            armoryTable.innerHTML += `
+            <tr>
+                <td><img src="img/longsword.png"></td>
+                <td>Level: <span id="weapon-longsword">${longsword}</span></td>
+            </tr>
+            `
+
+            if(longsword >= 10) {
+                document.getElementById("weapon-longsword").style.color = "gold"
+            }
+        }
+
+        if(warhammer > 0) {
+            armoryTable.innerHTML += `
+            <tr>
+                <td><img src="img/warhammer.png"></td>
+                <td>Level: <span id="weapon-warhammmer">${warhammer}</span></td>
+            </tr>
+            `
+
+            if(warhammer >= 10) {
+                document.getElementById("weapon-warhammmer").style.color = "gold"
+            }
+        }
+
+        if(battleaxe > 0) {
+            armoryTable.innerHTML += `
+            <tr>
+                <td><img src="img/battleaxe.png"></td>
+                <td>Level: <span id="weapon-battleaxe">${battleaxe}</span></td>
+            </tr>
+            `
+
+            if(battleaxe >= 10) {
+                document.getElementById("weapon-battleaxe").style.color = "gold"
+            }
+        }
+
+        if(armour > 0) {
+            armoryTable.innerHTML += `
+            <tr>
+                <td><img src="img/armour.png"></td>
+                <td>Level: <span id="weapon-armour">${armour}</span></td>
+            </tr>
+            `
+
+            if(armour >= 10) {
+                document.getElementById("weapon-armour").style.color = "gold"
+            }
+        }
+
+        
+        
+
+
+        //Oppgave 5: Utregning av poeng
+        let points = (coins * 5) + (longsword * 5) + (warhammer * 15) + (battleaxe * 20) + (armour * 25)
+        document.getElementById("points-count").innerHTML = points
+        //Oppgave 6: Utskrift av level
+        let level = 1
+        document.getElementById("level-count").innerHTML = level
+    </script>
+</body>
+</html>

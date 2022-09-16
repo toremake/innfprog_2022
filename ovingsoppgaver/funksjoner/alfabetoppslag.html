@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfabetoppslag</title>
+</head>
+
+<body>
+
+    <script>
+        // Lager en array med bokstaver fra alfabetet 
+        const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
+            "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Æ", "Ø", "Å"]
+
+        // console.log(alphabet.length) - sjekker at 29 bokstaver er på plass
+
+        // lager en funksjon 
+        function lookup(a) {
+            // bruker toUpperCase() for å passe på at parameter blir omgjort til stor bokstav
+            // const letter = a.toString().toUpperCase() 
+            // OPPDATERING, oppgave 5.1
+            // Når vi tester å sende et tall som parameter, får vi en feil 
+            const letter = a.toString().toUpperCase()
+
+
+            // lager en <p>-tag med createElement
+            const para = document.createElement("p"); 
+            // Oppgave 5.1: lager en if-test som sjekker om det vi sender med funksjonen finnes i alphabet-arrayen vår:
+            // Hvis true, skriv ut posisjon. Ellers, skriv ut feil-tekst.
+            if (alphabet.includes(letter)) {
+                // definerer en variabel som skal holde på indeksen til bokstaven
+                const index = alphabet.indexOf(letter) 
+                // index + 1 sørger for at vi får riktig plassering i alfabetet (siden index i array starter med 0)
+                para.innerText = `bokstaven ${letter} har plassering ${index + 1}` 
+                // printer ut <p>-tagen med tekst, lagret i variabelen para, ved å koble denne som et barnelement til body-elementet
+                document.body.appendChild(para);
+            } else {
+                para.innerText = `denne bokstaven er ikke en bokstav i det norske alfabetet`
+                document.body.appendChild(para);
+            }
+        }
+
+        //Kjører funksjonen med gyldig parameter
+        lookup("k")
+
+        //Kjører funksjonen uten gyldig parameter for å teste oppgave 5.1
+        lookup(9)
+
+    </script>
+</body>
+
+</html>

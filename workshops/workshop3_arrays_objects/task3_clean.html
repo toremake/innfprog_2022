@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Workshop 1: Variabler</title>
+    <link href="task3.css" rel="stylesheet" media="all">
+</head>
+<body>
+    <div id="gamearea">
+        <section id="hud-top">
+            <div id="lives"><img src="img/potions.png" /> <span id="lives-count">0</span></div>
+            <div id="coins"><img src="img/coins.png" /> <span id="coins-count">0</span></div>
+            <div id="player">
+                <img src="img/person.png" />
+                <span id="playername">Marius</span>
+            </div>
+            <div id="points"><img src="img/points.png" /> <span id="points-count">0</span></div>
+            <div id="level">Level: <span id="level-count">0</span></div>
+        </section>
+        <aside id="hud-inventory">
+            <h3>Armory</h3>
+            <table id="showhide">
+                <!-- 
+                JavaScript vil fylle tabellen
+                -->
+            </table>
+        </aside>
+    </div>
+
+    <script>
+        //PLAYERNAME - INITITAL PRINT
+        const playerName = "Hiof"
+        document.getElementById("playername").innerHTML = playerName
+        
+        //COINS - INITIAL PRINT
+        let coins = 10
+        let coinsPrint = ""
+        if(coins > 0) {
+            coinsPrint = coins
+        } else {
+            coinsPrint = "Collect some coins"
+        }
+        document.getElementById("coins-count").innerHTML = coinsPrint
+        
+        //LIVES - INITIAL PRINT
+        let lives = 1
+        const livesPrint = document.getElementById("lives-count")
+        livesPrint.innerHTML = lives
+        if(lives < 2) {
+            livesPrint.style.color = "red"
+        }
+
+        //ARMORY - INITIAL PRINT
+        
+
+        /* HTML-STRUKTUREN TIL EN ARMORY-RAD:
+        <tr>
+            <td><img src="img/battleaxe.png"></td>
+            <td>Level: <span id="weapon-battleaxe">${battleaxe}</span></td>
+        </tr>
+        */
+
+        
+
+        //POINTS - INITIAL PRINT
+        let points = (coins * 5) + (longsword * 5) + (warhammer * 15) + (battleaxe * 20) + (armour * 25)
+        document.getElementById("points-count").innerHTML = points
+        
+        //LEVEL - INITIAL PRINT
+        let level = 1
+        document.getElementById("level-count").innerHTML = level
+    </script>
+</body>
+</html>

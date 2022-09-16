@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagens ord</title>
+</head>
+
+<body>
+    <h1>Dagens ord er: <span id="ord"></span></h1>
+    <input type="text" name="brukerord" id="brukerord"><button id="sendord">Lagre ord</button>
+
+
+    <script>
+        // definerer variabler for elementer vi skal bruke i HTML-koden
+        const button = document.getElementById("sendord")
+        const input = document.getElementById("brukerord")
+        const todaysWord = document.getElementById("ord")
+        // legger til EventListener som sjekker for click og kjører addWord funksjonen når det registreres klikk
+        button.addEventListener("click", addWord)
+
+        function addWord() {
+            todaysWord.innerHTML = input.value
+            input.value = "" // nullstill input-feltet
+            input.focus() // sett fokus tilbake på input-feltet
+        }
+        
+    </script>
+</body>
+
+</html>

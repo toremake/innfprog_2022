@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <!-- enkel CSS for utseendes skyld -->
+    <style>
+        section {
+            display: flex;
+            flex-direction: column;
+            width: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <input type="number" id="tall1"><input type="number" id="tall2">
+        <button type="button" id="pluss">+</button><button type="button" id="minus">-</button>
+        <button type="button" id="dele">/</button><button type="button" id="gange">*</button>
+    </section>
+    <h2>Resultat: <span id="resultat"></span></h2>
+
+    <script>
+        // gjør klar variabler som peker på HTML-elementer
+        const number1 = document.getElementById("tall1")
+        const number2 = document.getElementById("tall2")
+        const result = document.getElementById("resultat")
+
+        // funksjoner som regner sammen tall basert på hvilken knapp som blir klikket på
+        // parseInt gjør om fra string til number
+        const add = () => {
+            result.innerHTML = parseInt(number1.value) + parseInt(number2.value)
+        }
+
+        const subtract = () => {
+            result.innerHTML = parseInt(number1.value) - parseInt(number2.value)
+        }
+        
+        const divide = () => {
+            result.innerHTML = parseInt(number1.value) / parseInt(number2.value)
+        }
+        
+        const multiply = () => {
+            result.innerHTML = parseInt(number1.value) * parseInt(number2.value)
+        }
+
+        // lager eventlisteners for ulike utregninger som peker på riktig funksjon
+        document.getElementById("pluss").addEventListener("click", add)
+        document.getElementById("minus").addEventListener("click", subtract)
+        document.getElementById("dele").addEventListener("click", divide)
+        document.getElementById("gange").addEventListener("click", multiply)
+
+      
+    </script>
+</body>
+
+</html>

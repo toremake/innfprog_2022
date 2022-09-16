@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagens ord 2</title>
+</head>
+
+<body>
+    <h1>Dagens ord er: <span id="ord"></span></h1>
+    <button id="velgord">Velg ord</button>
+
+    <script>
+        const ordListe = [
+            "Bulgaria",
+            "France",
+            "Scotland",
+            "England",
+            "Norway",
+            "Moldova"
+        ]
+
+        const todaysWord = document.getElementById("ord")
+        const button = document.getElementById("velgord")
+        button.addEventListener("click", selectWord)
+
+        function selectWord() {
+            let word = ordListe[Math.floor(Math.random() * ordListe.length)];
+            console.log(word)
+            todaysWord.innerHTML = word
+        }
+    </script>
+
+</body>
+
+</html>

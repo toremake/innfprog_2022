@@ -18,6 +18,7 @@ div, section, aside, article, span {
     background-image: url("img/background.png");
     background-repeat: repeat;
     position: relative;
+    padding-top: 100px;
 }
 
 #hud-top {
@@ -46,6 +47,15 @@ div, section, aside, article, span {
     left: 10px;
     background: #333;
     padding: 5px;
+}
+
+#playarea {
+    width: 100%;
+    max-width: 800px;
+    max-height: 600px;
+    margin: auto;
+    background:rgba(0, 0, 0, 0.8);
+    position:relative;
 }
 
 .gold {

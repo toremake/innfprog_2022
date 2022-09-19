@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions cheat sheet</title>
+</head>
+<body>
+    <p id="text" onClick="textChange()">Her står det en tekst. Denne blir byttet ut av textChangeParameter-kallet på linje 22.</p>
+
+    <script>
+        //Deklarere en funksjon textChange
+        //Denne funksjonen blir kalt og kjører via onClick-metoden i <p id="text">
+        function textChange() {
+            document.getElementById("text").innerHTML = "Dette er en annen tekst"
+        }
+
+        //Deklarerer en funksjon textChangeParameter, som tar imot en parameter textString.
+        function textChangeParameter(textString) {
+            document.getElementById("text").innerHTML = textString
+        }
+        //Vi kaller funksjonen textChangeParameter, og sender med en tekststreng som verdi i parameteren textString
+        textChangeParameter("Dette er en tekst sendt med som parameter. Denne kan du klikke på for å kalle textChange() via onClick")
+        
+    </script>
+</body>
+</html>

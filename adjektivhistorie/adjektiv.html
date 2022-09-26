@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adjektivhistorie</title>
+</head>
+<body>
+
+    <input type="text" id="adjInput" name="adjective-input" /><button onClick="saveAdj()" id="sendAdj">Lagre</button>
+    <div id="story"></div>
+    <script>
+        //Vi er avhengig av å ha teksten på en linje, eller som sammenhengende tekst
+        const text = `<h2>Det ADJ trollet</h2>
+        <p>Det var en gang et ADJ troll som bodde langt ute i
+            den ADJ skogen. Trollet hadde tre ADJ hoder
+            og fire ADJ bein. Det vokste et ADJ tre på den
+            ADJ nesa til trollet.
+        </p>
+        <p>En ADJ dag hørte det ADJ trollet to ADJ barn som gikk på den ADJ stien. Det ADJ
+            trollet bestemte seg for å skremme barna. Derfor gjemte
+            trollet seg under den ADJ broa.
+        </p>
+        <p>Da barna skulle over den ADJ broa, brølte det
+            ADJ trollet så ADJ det kunne. ”Hvem er det som
+            tramper på min ADJ bro?”. De ADJ barna skrek
+            og la på sprang det forteste de kunne. ”Nå kommer jeg og
+            tar dere!”, ropte det ADJ trollet.
+        </p>
+
+        <p>Men plutselig skled trollet på en ADJ stein. Trollet falt
+            rett ned i den ADJ fossen og ble slukt av en
+            ADJ fisk. Snipp snapp snute, så er dette ADJ
+            eventyret ute.
+        </p>`
+        //Hente ut ADJ og telle dem
+        //Gjør text til en array med ord:
+        const textArray = text.split(" ")
+        //Telle opp antall ADJ-elementer
+        const ADJcount = textArray.filter(word => word === "ADJ").length
+        console.log("Du trenger " + ADJcount + " Adjektiver")
+
+        //Array for å lagre adjektiver
+        let adjectives = []
+
+        
+        //Function for å lagre adjektiv
+        function saveAdj() {
+            const adj = document.getElementById("adjInput").value
+            if(adjectives.length < ADJcount) {
+                adjectives.push(adj)
+            } else {
+                //Si fra at du har nok adjektiver
+                alert("Du har skrevet nok adjektiver!")
+                generateAdjectivStory()
+            }
+            document.getElementById("adjInput").value = ""
+            document.getElementById("adjInput").focus()
+        }
+
+        function generateAdjectivStory() {
+            let adjIndexCounter = 0
+            textArray.map((word, index) => {
+                if(word === "ADJ") {
+                    textArray[index] = adjectives[adjIndexCounter]
+                    console.log(adjectives[adjIndexCounter])
+                    adjIndexCounter++
+                    
+                } 
+            })
+            document.getElementById("story").innerHTML = textArray.join(" ")
+            console.log(textArray)
+        }
+        
+
+    </script>
+</body>
+</html>

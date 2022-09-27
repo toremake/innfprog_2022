@@ -11,7 +11,8 @@
     <input type="text" id="adjInput" name="adjective-input" /><button onClick="saveAdj()" id="sendAdj">Lagre</button>
     <div id="story"></div>
     <script>
-        //Vi er avhengig av å ha teksten på en linje, eller som sammenhengende tekst
+        //Notat: Nå er vi er avhengig av å ha teksten på en linje, eller som sammenhengende tekst
+        //Vi får problemer med newline
         const text = `<h2>Det ADJ trollet</h2>
         <p>Det var en gang et ADJ troll som bodde langt ute i
             den ADJ skogen. Trollet hadde tre ADJ hoder
@@ -34,46 +35,59 @@
             ADJ fisk. Snipp snapp snute, så er dette ADJ
             eventyret ute.
         </p>`
-        //Hente ut ADJ og telle dem
-        //Gjør text til en array med ord:
+
+        //1) Hente ut ADJ fra tekststreng og telle dem
+        //Gjør text til en array med ord ved å splitte streng på mellomrom:
         const textArray = text.split(" ")
-        //Telle opp antall ADJ-elementer
+        //Telle opp antall ADJ-elementer ved å filtrere arrayen
         const ADJcount = textArray.filter(word => word === "ADJ").length
         console.log("Du trenger " + ADJcount + " Adjektiver")
 
         //Array for å lagre adjektiver
         let adjectives = []
 
-        
         //Function for å lagre adjektiv
         function saveAdj() {
+            //Hent input-elementets verdi
             const adj = document.getElementById("adjInput").value
+            //Hvis adjectives-arrayen inneholder færre ord enn vi trenger...
             if(adjectives.length < ADJcount) {
+                //...sett ord inn i arrayen
                 adjectives.push(adj)
             } else {
-                //Si fra at du har nok adjektiver
+                //Ellers: si fra at du har nok adjektiver
                 alert("Du har skrevet nok adjektiver!")
+                //Og kjør funksjon for å genere utskrift
                 generateAdjectivStory()
             }
+            //UX: ta bort ordet vi har skrevet i input, og la markøren bli der.
             document.getElementById("adjInput").value = ""
             document.getElementById("adjInput").focus()
         }
 
+        //Funksjon for å bytte ut ADJ med adjektivene våre, og skrive den ut.
         function generateAdjectivStory() {
+            //Vi må hente ord fra arrayen adjectives. Da trenger vi indexer.
+            //Vi henter det første ordet først (index 0).
             let adjIndexCounter = 0
+            //Vi må gå gjennom alle ordene fra tekststrengen, som vi delte opp til en array tidligere
+            //Hvis ordet i arrayen er ADJ, skal vi på denne plassen sette inn et ord fra adjectives-arrayen
+            //Vi bruker .map, og lagrer ord i word, og henter med oss ordets index:
             textArray.map((word, index) => {
+                //Nå kan vi sjekke at dersom ordet i teksten er ADJ...
                 if(word === "ADJ") {
+                    //...setter vi inn et ord fra adjectives på dette ordets plass i textarray...
                     textArray[index] = adjectives[adjIndexCounter]
-                    console.log(adjectives[adjIndexCounter])
+                    //...og legger til 1 til adjIndexCounter for å få tak i nytt ord fra
+                    //adjectives-arrayen neste gang vi finner ADJ i textarray.
                     adjIndexCounter++
                     
                 } 
             })
+            //Når vi har vært gjennom alle ord i textArray, skriver vi det ut til #studio.
+            //Vi bruker .join(" ") for å koble sammen alle elementene i arrayen til en tekststreng (med mellomrom)
             document.getElementById("story").innerHTML = textArray.join(" ")
-            console.log(textArray)
         }
-        
-
     </script>
 </body>
 </html>

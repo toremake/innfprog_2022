@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X</title>
+</head>
+<body>
+    <canvas id="kors"></canvas>
+    <script>
+        // Setter opp canvas med størrelse
+        const canvas = document.getElementById("kors")
+        canvas.width = 500
+        canvas.height = 500
+        // Henter tegnefunksjonalitet via 2d-context
+        const ctx = canvas.getContext("2d")
+
+        // Justeter tykkelse på linje
+        ctx.lineWidth = 7
+
+        //Linje 1 - topp venstre (0, 0) mot bunn høyre (500, 500)
+        ctx.moveTo(0, 0)
+        ctx.lineTo(500, 500)
+        ctx.stroke()
+
+        // Linje 2 - topp høyre (0, 500) mot bunn venstre (500, 0)
+        ctx.moveTo(0, 500)
+        ctx.lineTo(500, 0)
+        ctx.stroke()
+    </script>
+</body>
+</html>

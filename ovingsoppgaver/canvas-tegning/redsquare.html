@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Square</title>
+</head>
+<body>
+    <canvas id="firkant"></canvas>
+    <script>
+        const canvas = document.getElementById("firkant")
+        canvas.width = 600
+        canvas.height = 600
+        const ctx = canvas.getContext("2d")
+
+        // Deklarer variabler for bredde/høyde for firkantene - bonusoppgave
+        const rectSize = 200
+
+        // Funksjon som tegner opp firkantene - bonusoppgave
+        const drawSquare = (x, y, fillColor = "red") => {
+            ctx.beginPath()
+            ctx.rect(x, y, rectSize, rectSize)
+            ctx.fillStyle = fillColor
+            ctx.strokeStyle = "black"
+            ctx.fill()
+            ctx.stroke()
+            ctx.closePath()
+        }
+
+        // Kaller funksjonen og sender med parametre (bonusoppgave)
+        drawSquare(0, 0, "red")
+        drawSquare(200, 200, "green")
+        drawSquare(400, 400, "red")
+
+        // Original oppgave - kommentert ut til fordel for bonusoppgaveløsning over
+        // Firkant 1 (øverst venstre)
+        // ctx.beginPath()
+        // ctx.rect(0, 0, 200, 200)
+        // ctx.stroke()
+
+        // // Firkant 2 (midten)
+        // ctx.beginPath()
+        // ctx.rect(200, 200, 200, 200)
+        // ctx.stroke()
+
+        // Firkant 3 (nederst høyre)
+        // ctx.beginPath()
+        // ctx.rect(400, 400, 200, 200)
+        // ctx.stroke()
+    </script>
+</body>
+</html>

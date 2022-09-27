@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock</title>
+</head>
+<body>
+    <canvas id="klokke"></canvas>
+    <script>
+        const canvas = document.getElementById("klokke")
+        canvas.width = 700
+        canvas.height = 700
+        ctx = canvas.getContext("2d")
+
+        //Tegner opp sirkelen
+        ctx.beginPath()
+        ctx.arc(350, 350, 350, 0, 2 * Math.PI)
+        ctx.stroke()
+
+        //Skriver ut tallene på riktig plass i sirkel
+        ctx.font = "30px Arial"
+        ctx.fillText("12", 330, 30)
+        ctx.fillText("11", 150, 90)
+        ctx.fillText("1", 520, 90)
+        ctx.fillText("10", 60, 200)
+        ctx.fillText("2", 620, 200)
+        ctx.fillText("9", 20, 350)
+        ctx.fillText("3", 670, 350)
+        ctx.fillText("8", 60, 520)
+        ctx.fillText("4", 620, 520)
+        ctx.fillText("7", 200, 645)
+        ctx.fillText("5", 500, 645)
+        ctx.fillText("6", 345, 690)
+
+        //Tegner opp lang viser
+        ctx.moveTo(350, 350)
+        ctx.lineTo(60, 515)
+        ctx.stroke()
+
+        //Tegner opp kort viser
+        ctx.moveTo(350, 350)
+        ctx.lineTo(550, 415)
+        ctx.stroke()
+    </script>
+</body>
+</html>

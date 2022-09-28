@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adjektivhistorie</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+        :root {
+            --light: #F9F5EB;
+            --sand: #EAE3D2;
+            --sky: #607EAA;
+            --blue: #1C3879;
+        }
+        body {
+            background: var(--sand);
+            font-family: 'Roboto Slab', serif;
+            font-size: 18px;
+        }
+        section, div, aside, article, textarea {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        section {
+            background: var(--light);
+            width: 100%;
+            max-width: 90rem;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            margin: 1rem auto;
+        }
+        article {
+            padding-bottom: 1rem;
+            flex-grow: 1;
+        }
+        aside {
+            background: var(--blue);
+            color: var(--light);
+            min-width: 30rem;
+            padding: 1rem;
+        }
+        aside p {
+            display: flex;
+            flex-direction: row;
+        }
+        input, textarea {
+            border: 1px solid var(--blue);
+            padding: 1rem;
+            font-size: 18px;
+            font-family: 'Roboto Slab', serif;
+            flex-grow: 1;
+        }
+        textarea {
+            width: 100%;
+            min-height: 250px;
+        }
+        button#sendAdj, button#sendStory {
+            background: var(--sky);
+            color: var(--light);
+            border: none;
+            font-family: 'Roboto Slab', serif;
+            font-size: 18px;
+            padding: 1rem;
+        }
+        button.delete {
+            background: red;
+            color: var(--light);
+            border: none;
+            font-family: 'Roboto Slab', serif;
+            font-size: 18px;
+            padding: .5rem;
+        }
+        ol {
+            list-style-type: armenian;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--sky);
+            padding: .5rem;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <aside id="adjective-box">
+            <h2>Du trenger <span id="adjectivesLeft"></span> adjektiver</h2>
+            <p>
+            <input type="text" id="adjInput" name="adjective-input" />
+            <button onClick="saveAdj()" id="sendAdj">Lagre</button>
+            </p>
+            <h3>Registrerte adjektiver</h3>
+            <ol id="adjectiveList"></ol>
+        </aside>
+        <article id="story">
+            <h2>Skriv inn en adjektivhistorie</h2>
+            <p>OBS: Der du vil ha adjektiver, skriv ADJ (med store bokstaver)</p>
+            <textarea id="baseStory"></textarea>
+            <button id="sendStory" onClick="sendStory()">Lagre historien</button>
+        </article>
+    </section>
+
+    <script>
+        /*
+            Dette er en avansert løsning som har tatt med seg noen av 
+            innspillene fra gerilja-programmeringsforelesningen.
+            Tusen takk til Sigurd for funksjonelle tips som er inkludert,
+            og til Henriette for å tenke på .includes(), som faktisk ble 
+            løsningen på de elementene i textArray som ikke kun inneholder
+            tegnene ADJ!
+        */
+
+        //Adjektivhistorie. Kan inneholde HTML. Alle steder det skal byttes ut adjektiver,
+        //skriv ADJ (store bokstaver er viktig).
+        let text = ""
+        let textArray = []
+        let ADJcount = 0
+
+        //Array for å lagre adjektiver
+        let adjectives = []
+        //Hvis det ikke er lagret noen adjektiver, skriv ut en ventetekst
+        if(text === "") {
+            document.getElementById("adjectivesLeft").innerHTML = 0
+            document.getElementById("adjectiveList").innerHTML += "<li>Ingen adjektiver enda</li>"
+            document.getElementById("adjInput").disabled = true
+        }
+
+        //Funksjon for å ta imot historie
+        function sendStory() {
+            //Hent tekst fra tekstfelt
+            text = document.getElementById("baseStory").value
+            //Finn alle ADJ i tekst og tell dem
+            //Gjør text til en array med ord:
+            textArray = text.split(" ")
+            //Telle opp antall elementer i textarray som inkluderer ADJ
+            ADJcount = textArray.filter(word => word.includes("ADJ")).length
+            document.getElementById("adjectivesLeft").innerHTML = ADJcount
+            //Gjøre det mulig å fylle inn adjektiver i input-feltet
+            document.getElementById("adjInput").disabled = false
+            //Fjern tekstboks til å skrive historie:
+            document.getElementById("story").innerHTML = `<h2>Fyll ut adjektiver</h2><p>Historien er klar, og vi har telt opp adjektiver. Begynn å samle adjektiver i listen til venstre.</p>`
+        }
+       
+        //Function for å lagre adjektiv
+        function saveAdj() {
+            const adj = document.getElementById("adjInput").value
+            if(adjectives.length < (ADJcount - 1)) {
+                adjectives.push(adj)
+                generateAdjectiveList();
+                document.getElementById("adjectivesLeft").innerHTML = ADJcount - adjectives.length
+            } else {
+                adjectives.push(adj)
+                generateAdjectiveList();
+                //Si fra at du har nok adjektiver
+                alert("Du har skrevet nok adjektiver! Vis historien din.")
+                //Fjern slette-knapper fra adjektiv-liste
+                const btns = document.querySelectorAll(".delete")
+                btns.forEach(btn => btn.style.display = "none")
+                //Kall funksjon for å lage historie
+                generateAdjectivStory()
+            }
+            document.getElementById("adjInput").value = ""
+            document.getElementById("adjInput").focus()
+        }
+
+        //Funksjon for å lage listen med adjektiver vi har lagret allerede
+        //Inkluderer også knapp for å slette
+        function generateAdjectiveList() {
+            let HTMLlist = ""
+            adjectives.map((word, index) =>  HTMLlist += `<li>${word} <button class="delete" onClick="deleteAdj(${index})">Slett</button></li>`)
+            document.getElementById("adjectiveList").innerHTML = HTMLlist
+        }
+
+        //Funksjon for å slette et adjektiv fra listen
+        //Tar imot index som parameter for å bruke .splice() til å slette
+        function deleteAdj(index) {
+            adjectives.splice(index, 1)
+            generateAdjectiveList()
+            //Henter tallet fra utskriften av antall vi mangler, og skriver ut oppdatert med en
+            const currentAdjectiveNeed = document.getElementById("adjectivesLeft").innerHTML
+            document.getElementById("adjectivesLeft").innerHTML = Number(currentAdjectiveNeed) + 1
+        }
+
+        //Funksjon for å generere adjektivhistorien
+        //Denne går gjennom arrayen med tekst, og hvis elementet inkluderer ADJ, byttes det ut
+        //med et ord fra adjectives-arrayen.
+        function generateAdjectivStory() {
+            let adjIndexCounter = 0
+            textArray.map((word, index) => {
+                if(word.includes("ADJ")) {
+                    textArray[index] = word.replace('ADJ', adjectives[adjIndexCounter])
+                    console.log(adjectives[adjIndexCounter])
+                    adjIndexCounter++
+                    
+                } 
+            })
+            //Når alle ordene er byttet ut, skriver vi ut historien som tekst
+            document.getElementById("story").innerHTML = `<h2>Din adjektivhistorie:</h2><p>${textArray.join(" ")}</p>`
+        }
+        
+
+    </script>
+</body>
+</html>

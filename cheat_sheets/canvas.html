@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f3f3f3;
+        }
+        #drawing {
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="drawing"></canvas>
+
+    <script>
+        //Hente canvas-elementet:
+        const canvas = document.getElementById("drawing")
+        //Sette størrelse for canvas:
+        canvas.width = 700
+        canvas.height = 500
+        //Gi det en kontekst
+        const ctx = canvas.getContext("2d")
+
+        //Firkanter
+        const rectSize = 300
+        ctx.fillStyle = "yellow"
+        ctx.fillRect(canvas.width - rectSize, canvas.height - rectSize, rectSize, rectSize)
+        ctx.fillStyle = "red"
+        ctx.fillRect(0, 0 ,200, 200)
+        ctx.strokeRect(200, 100, 200, 350)
+
+        //Sirkler
+        ctx.arc(100, 400, 50, 0, 2 * Math.PI)
+        ctx.strokeStyle = "green"
+        ctx.stroke()
+        ctx.fill()
+
+        //Tekst
+        ctx.font = "60px Arial"
+        ctx.fillStyle = "black"
+        let lives = 3
+        const livesPrint = "Liv: " + lives
+        ctx.fillText(livesPrint, 150, 150)
+    </script>
+</body>
+</html>

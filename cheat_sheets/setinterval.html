@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SetInterval</title>
+</head>
+<body>
+    <button onClick="stop()">Slutt å mas!</button>
+    <div id="area"></div>
+
+    <script>
+        //Klargjør en teller
+        let maseTeller = 1
+        //lag en funksjon som skriver ut melding og oppdaterer teller
+        function printMessage() {
+            document.getElementById("area").innerHTML = "<p>Mamma (" + maseTeller + ")</p>"
+            maseTeller++
+        }
+        //Kjør funksjonen printMessage hvert sekund
+        const intervalID = setInterval(printMessage, 1000)
+        //Lag funksjon som stopper setInterval når stopp-knappen trykkes
+        function stop() {
+            clearInterval(intervalID)
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating ramp</title>
+    <style>
+        * { padding: 0; margin: 0; }
+        canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <canvas id="flate" width="600" height="600"></canvas>
+
+    <script>
+        var canvas = document.getElementById("flate");
+        var ctx = canvas.getContext("2d");
+
+        //Sett startpunkter og størrelse for firkanten
+        var x = 300;
+        var y = 0;
+        var w = 300;
+        var h = 300;
+
+        //Lag en funksjon som tegner firkanten på canvas
+        function drawFirkant() {
+            ctx.beginPath();
+            ctx.rect(x, y, w, h);
+            ctx.fillStyle = "#2db3b8";
+            ctx.fill();
+            ctx.closePath();
+        }
+        //Lag en funksjon som:
+        //- tømmer canvas for tegninger
+        //- tegner rampen på nytt 
+        //- sjekker nåværende posisjon for å finne nye koordinater
+        //- setter nye x- og y-koordinater for neste bilde
+        function draw() {
+            //Tøm canvas før vi tegner et nytt bilde
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            //Tegn firkanten
+            drawFirkant();
+            
+            //Så sjekker vi hva x og y er nå. På den måten kan vi fortelle hva neste posisjon skal være
+            //ref: https://hiof.instructure.com/files/779051/download?wrap=1
+
+            //Hvis nåværende posisjon er posisjon 1...
+            if(x == 300 && y == 0) {
+                //...sett ny x og y til posisjon 2:
+                new_x = 0; 
+                new_y = 0;
+            }
+            //Hvis nåværende posisjon er posisjon 2...
+            else if(x == 0 && y == 0) {
+                //...sett ny x og y til posisjon 3:
+                new_x = 0; 
+                new_y = 300;
+            }
+            //Hvis nåværende posisjon er posisjon 3...
+            else if(x == 0 && y == 300) {
+                //...sett ny x og y til posisjon 4:
+                new_x = 300; 
+                new_y = 300;
+            }
+            //Hvis nåværende posisjon er posisjon 4 (siste posisjon og sjekke for)...
+            else if(x == 300 && y == 300) {
+                //...sett ny x og y til posisjon 1 (tilbake der vi startet):
+                new_x = 300; 
+                new_y = 0;
+            }
+
+            //Så setter vi x og y til å være de nye verdiene for neste bilde som skal tegnes:
+            x = new_x;
+            y = new_y;
+        }
+        //Så setter vi et intervall, slik at det tegnes nye bilder hvert 500. milisekund.
+        setInterval(draw, 500);
+    </script>
+</body>
+</html>

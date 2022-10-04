@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RequestAnimationFrame</title>
+    <style>
+        body {
+            background: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="animarea"></canvas>
+
+    <script>
+        //gjøre klart canvas:
+        const canvas = document.getElementById("animarea")
+        canvas.width = 600
+        canvas.height = 400
+        //hent kontekst
+        const ctx = canvas.getContext("2d")
+
+        //Funksjon som tegner firkanten
+        function drawRect() {
+            ctx.beginPath()
+            ctx.fillRect(x, y, 50, 50)
+            ctx.closePath()
+        }
+
+        //startpunkt for x og y i tegning av firkant
+        let x = 0
+        let y = 0
+        
+        //samlefunksjon for å tømme canvas og tegne opp elementer
+        function drawElements() {
+            //tøm hele canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            //tegn firkant
+            drawRect()
+            //oppdater posisjon til neste tegning
+            x = x + 1
+            y = y + 1
+            //fortsett requestAnimationFrame
+            requestAnimationFrame(drawElements)
+        }
+
+        //kjør requestAnimationFrame første gang ved innlasting
+        requestAnimationFrame(drawElements)
+    </script>
+</body>
+</html>

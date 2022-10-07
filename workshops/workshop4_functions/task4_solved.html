@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Workshop 4: Funksjoner</title>
+    <link href="task4.css" rel="stylesheet" media="all">
+</head>
+<body>
+    <div id="gamearea">
+        <section id="hud-top">
+            <div id="lives"><img src="img/potions.png" /> <span id="lives-count">0</span></div>
+            <div id="coins"><img src="img/coins.png" /> <span id="coins-count">0</span></div>
+            <div id="player">
+                <img src="img/person.png" />
+                <span id="playername">Marius</span>
+            </div>
+            <div id="points"><img src="img/points.png" /> <span id="points-count">0</span></div>
+            <div id="level">Level: <span id="level-count">0</span></div>
+        </section>
+        <section id="playarea">
+            <div>
+                <button onClick="modifyLives(1)">Gain 1 life</button>
+                <button onClick="modifyLives(-1)">Loose 1 life</button>
+            </div>
+            <div>
+                <button onClick="modifyCoins(5)">Add 5 coins</button>
+                <button onClick="modifyCoins(-5)">Loose 5 coins</button>
+            </div>
+            <div>
+                <button onclick="restartGame()">Restart game</button>
+            </div>
+        </section>
+        <aside id="hud-inventory">
+            <h3>Armory</h3>
+            <table id="showhide">
+                <!-- 
+                JavaScript vil fylle tabellen
+                -->
+            </table>
+        </aside>
+    </div>
+
+    <script>
+        //WS3, OPPG1:
+        const gameConfig = {
+            playerName: "Hiof",
+            coins: 50,
+            lives: 3,
+            level: 1
+        }
+        // WS4, Oppgave 1:
+        function modifyCoins(modifyer) {
+            gameConfig.coins = gameConfig.coins + modifyer;
+            if (gameConfig.coins <= 0) {
+                gameConfig.coins = 0;
+                document.getElementById("coins-count").innerHTML = "Collect some coins"
+            }
+            else {
+                document.getElementById("coins-count").innerHTML = gameConfig.coins
+            }
+            calculatePoints(gameConfig.coins, armoryPoints);
+        }
+
+        //WS4, Oppgave 2:
+        function modifyLives(modifyer) {
+            gameConfig.lives = gameConfig.lives + modifyer;
+            if (gameConfig.lives <= 0) {
+                gameConfig.lives = 0;
+                document.getElementById("lives-count").innerHTML = "Get a life"
+            }
+            else {
+                document.getElementById("lives-count").innerHTML = gameConfig.lives
+            }
+        }
+
+        //WS4, Oppgave 4:
+        function calculatePoints(coins, armory) {
+            points = (coins * 5) + armory
+            document.getElementById("points-count").innerHTML = points
+        }
+        //PLAYERNAME - INITITAL PRINT
+        document.getElementById("playername").innerHTML = gameConfig.playerName
+        
+        //COINS - INITIAL PRINT
+        let coinsPrint = ""
+        if(gameConfig.coins > 0) {
+            coinsPrint = gameConfig.coins
+        } else {
+            coinsPrint = "Collect some coins"
+        }
+        document.getElementById("coins-count").innerHTML = coinsPrint
+        
+        //LIVES - INITIAL PRINT
+        const livesPrint = document.getElementById("lives-count")
+        livesPrint.innerHTML = gameConfig.lives
+        if(gameConfig.lives < 2) {
+            livesPrint.style.color = "red"
+        }
+
+        //LEVEL - INITIAL PRINT
+        document.getElementById("level-count").innerHTML = gameConfig.level
+
+        //ARMORY - INITIAL PRINT
+       //WS3, OPPG. 5
+       const armory = [
+            {
+                weaponName: "Longsword",
+                weaponIcon: "longsword",
+                level: 3,
+                value: 5
+            },
+            {
+                weaponName: "Warhammer",
+                weaponIcon: "warhammer",
+                level: 12,
+                value: 15
+            },
+            {
+                weaponName: "Battleaxe",
+                weaponIcon: "battleaxe",
+                level: 0,
+                value: 20
+            },
+            {
+                weaponName: "Armour",
+                weaponIcon: "armour",
+                level: 1,
+                value: 25
+            }
+        ]
+        //Sjekke strukturen via console.log
+        console.log(armory)
+        function drawArmory() {
+            //Gjøre klar en variabel for armory-HTML-rader
+            let armoryHTML = ""
+            armoryPoints = 0
+            //Løpe gjennom armory-arrayen med map, og lage HTML
+            armory.map(weapon => {
+                    //Hvis våpen-level er større enn 0, legg til HTML-en for våpenraden
+                    weapon.level > 0 ? armoryHTML += `<tr>
+                        <td><img src="img/${weapon.weaponIcon}.png" /> ${weapon.weaponName}</td>
+                        <td ${weapon.level > 9 ? `class="gold"` : null}>${weapon.level}</td>
+                    </tr>` : null
+                    //Legg level * value for våpenet til armoryPonts
+                    armoryPoints += weapon.level * weapon.value
+            })
+            //Skrive ut armoryHTML til armory-tabellen i HTML-delen
+            document.getElementById("showhide").innerHTML = armoryHTML
+        }
+
+        //Gjøre klar en variabel for å legge sammen armory-poeng
+        let armoryPoints = 0
+        // alternativt
+        // Funksjon som skriver ut armory på siden
+        drawArmory()
+        
+
+        //POINTS - INITIAL PRINT
+        //WS3, Oppg 6: Oppdatert points med verdi fra gameConfig-objektet og utregning via armoryPoints
+        let points = (gameConfig.coins * 5) + armoryPoints
+        document.getElementById("points-count").innerHTML = points
+
+        function restartGame() {
+            // Reset gamesConfig
+            gameConfig.coins = 50
+            gameConfig.lives = 3
+            gameConfig.level = 1
+
+            // Reset armory-levels til 1 for å vise at level endres
+            for (const weapon of armory) {
+                weapon.level = 0
+            }
+            drawArmory()
+
+            // reset points
+            document.getElementById("points-count").innerHTML = armoryPoints + (gameConfig.coins * 5)
+
+        }
+
+        
+        
+    </script>
+</body>
+</html>

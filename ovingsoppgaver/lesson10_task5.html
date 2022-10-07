@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movable ball</title>
+</head>
+
+<body>
+  <canvas id="draw-area"></canvas>
+  <p>Use arrow keys to control ball.</p>
+  <script>
+    //Prepare canvas:
+    const c = document.getElementById("draw-area")
+    c.width = 600
+    c.height = 400
+    const ctx = c.getContext("2d")
+
+    //Function to draw ball
+    function drawBall(x, y, radius) {
+      ctx.beginPath()
+      ctx.fillStyle = "#003366"
+      ctx.arc(x, y, radius, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.closePath()
+    }
+
+    //Variables for moving X,Y-position of ball.
+    //These replace startBallX and startBallY.
+    const ballRadius = 10
+    let ballX = c.width / 2
+    let ballY = c.height - ballRadius
+    //Klargjøre retningsvariabel:
+    let direction = false;
+
+    //Sjekke tastetrykk:
+    document.addEventListener("keydown", event => {
+      if(event.key === "ArrowRight") {
+        direction = "right"
+      }
+      if(event.key === "ArrowLeft") {
+        direction = "left"
+      }
+      if(event.key === "ArrowUp") {
+        direction = "up"
+      }
+      if(event.key === "ArrowDown") {
+        direction = "down"
+      }
+      
+      //Testutskrift:
+      console.log(direction)
+    })
+
+    //Sjekke fjerning av tastetrykk:
+    document.addEventListener("keyup", event => {
+      if(
+        event.key === "ArrowRight" || 
+        event.key === "ArrowLeft" || 
+        event.key === "ArrowUp" || 
+        event.key === "ArrowDown"
+        ) {
+        direction = false
+      }
+      
+      console.log(direction)
+    })
+
+    //Function to draw elements:
+    function drawElements() {
+      //clear the canvas:
+      ctx.clearRect(0, 0, c.width, c.height)
+      //draw the ball:
+      drawBall(ballX, ballY, ballRadius)
+      //modify values for movement for next drawing
+      //if correct key is pressed:
+      direction === "right" ? ballX += 2 : null
+      direction === "left" ? ballX -= 2 : null
+      direction === "up" ? ballY -= 2 : null
+      direction === "down" ? ballY += 2 : null
+    }
+
+    //requestAnimationFrame for animation:
+    let animID
+    function animate() {
+      drawElements()
+      animID = requestAnimationFrame(animate)
+    }
+    //run the animation on page load:
+    requestAnimationFrame(animate)
+
+  </script>
+</body>
+
+</html>

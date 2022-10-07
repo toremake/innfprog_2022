@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RequestAnimationFrame</title>
+    <style>
+        body {
+            background: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="animarea"></canvas>
+
+    <script>
+        //gjøre klart canvas:
+        const canvas = document.getElementById("animarea")
+        canvas.width = 1000
+        canvas.height = 400
+        //hent kontekst
+        const ctx = canvas.getContext("2d")
+
+        //Funksjon som tegner firkanten
+        function drawRect() {
+            ctx.beginPath()
+            ctx.fillRect(x, y, 50, 50)
+            ctx.closePath()
+        }
+
+        //startpunkt for x og y i tegning av firkant
+        let x = 0
+        let y = 0
+        //startpunkt for retning (ingen retning før tastetrykk)
+        let direction = false;
+        //starthastighet
+        let boost = 1
+
+        //Registrere knappetrykk
+        //https://lms.webtricks.blog/kurs/innforing-i-programmering/8-brukerinput/tastaturinput
+        document.addEventListener("keydown", event => {
+                //Hvis event.key er en piltast, set verdien av direction i henhold til pil
+                if(event.key === "ArrowRight") {
+                    direction = "right"
+                }
+                if(event.key === "ArrowLeft") {
+                    direction = "left"
+                }
+                console.log(direction)
+
+                //Hvis s er trykket ned, sett boost til 5 (flytt flere pixler per opptegning)
+                if(event.key === "s") {
+                    boost = 5
+                }
+            }
+        )
+        //Registrere at vi slipper opp knappetrykk:
+        //https://lms.webtricks.blog/kurs/innforing-i-programmering/8-brukerinput/tastaturinput
+        document.addEventListener("keyup", event => {
+            //Når vi slipper opp en piltast, sett direction til false for å slutte å bevege elementet.
+            if(event.key === "ArrowRight" || event.key === "ArrowLeft") {
+                direction = false;
+            }
+            //Når s-tasten slippes, sett boost tilbake til 1
+            if(event.key === "s") {
+                boost = 1
+            }
+        })
+        
+        //samlefunksjon for å tømme canvas og tegne opp elementer
+        function drawElements() {
+            //tøm hele canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            //tegn firkant
+            drawRect()
+            //oppdater posisjon til neste tegning
+            if(direction === "right") {
+                x = x + boost
+            }
+            if(direction === "left") {
+                x = x - boost
+            }
+            //fortsett requestAnimationFrame
+            requestAnimationFrame(drawElements)
+        }
+
+        //kjør requestAnimationFrame første gang ved innlasting
+        requestAnimationFrame(drawElements)
+    </script>
+</body>
+</html>

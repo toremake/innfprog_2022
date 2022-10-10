@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas: Animation with controlled movement</title>
+    <style>
+        body {
+            background: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="animarea"></canvas>
+
+    <script>
+        //gjøre klart canvas:
+        const canvas = document.getElementById("animarea")
+        canvas.width = 1000
+        canvas.height = 400
+        //hent kontekst
+        const ctx = canvas.getContext("2d")
+
+        //Funksjon som tegner firkanten
+        const hero = {
+            fillcolor: "green",
+            width: 50,
+            height: 50
+        }
+        function drawRect() {
+            ctx.beginPath()
+            ctx.fillStyle = hero.fillcolor
+            ctx.fillRect(x, y, hero.width, hero.height)
+            ctx.closePath()
+        }
+
+        //Funksjon som tegner fjell
+        const mountain = {
+            color: "gray",
+            x: canvas.width / 2 - 100,
+            y: canvas.height / 2 - 40,
+            width: 200,
+            height: 80
+        }
+        function drawMountain() {
+            ctx.beginPath()
+            ctx.fillStyle = "gray"
+            ctx.fillRect(mountain.x, mountain.y, mountain.width, mountain.height)
+            ctx.closePath()
+        }
+
+        //startpunkt for x og y i tegning av firkant
+        let x = 0
+        let y = 0
+        //startpunkt for retning (ingen retning før tastetrykk)
+        //let direction = false;
+        let left = false
+        let right = false
+        let up = false
+        let down = false
+        //starthastighet
+        let boost = 1
+
+        //Registrere knappetrykk
+        //https://lms.webtricks.blog/kurs/innforing-i-programmering/8-brukerinput/tastaturinput
+        document.addEventListener("keydown", event => {
+                //Hvis event.key er en piltast, set verdien av direction i henhold til pil
+                if(event.key === "ArrowRight") {
+                    right = true
+                }
+                if(event.key === "ArrowLeft") {
+                    left = true
+                }
+                if(event.key === "ArrowUp") {
+                    up = true
+                }
+                if(event.key === "ArrowDown") {
+                    down = true
+                }
+                //console.log(direction)
+
+                //Hvis s er trykket ned, sett boost til 5 (flytt flere pixler per opptegning)
+                if(event.key === "s") {
+                    boost = 5
+                }
+            }
+        )
+        //Registrere at vi slipper opp knappetrykk:
+        //https://lms.webtricks.blog/kurs/innforing-i-programmering/8-brukerinput/tastaturinput
+        document.addEventListener("keyup", event => {
+            //Når vi slipper opp en piltast, sett direction til false for å slutte å bevege elementet.
+            /*if(event.key === "ArrowRight" || event.key === "ArrowLeft") {
+                direction = false;
+            }*/
+            event.key === "ArrowRight" ? right = false : null
+            event.key === "ArrowLeft" ? left = false : null
+            event.key === "ArrowUp" ? up = false : null
+            event.key === "ArrowDown" ? down = false : null
+            //Når s-tasten slippes, sett boost tilbake til 1
+            if(event.key === "s") {
+                boost = 1
+            }
+        })
+        
+        //samlefunksjon for å tømme canvas og tegne opp elementer
+        function drawElements() {
+            //tøm hele canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            //tegn firkant
+            drawRect()
+            //oppdater posisjon til neste tegning
+            if(right === true) {
+                x = x + boost
+            }
+            if(left === true) {
+                x = x - boost
+            }
+            if(up === true) {
+                y = y - boost
+            }
+            if(down === true) {
+                y = y + boost
+            }
+
+            //Kollisjonssjekk mellom grønn firkant og fjell
+            if(
+                x + hero.width > mountain.x && 
+                x < mountain.x + mountain.width && 
+                y + hero.height > mountain.y && 
+                y < mountain.y + mountain.height
+            ) {
+                
+                //Hvis vi har funksjonalitet som avbryter nettleserens rendring av kode,
+                //ala alert(), vil vi måtte resette verdier (siden koden fortsetter å kjøre i bakgrunnen)
+                /*
+                alert("Du kræsja!");
+                x = 0
+                y = 0
+                right = false
+                left = false
+                up = false
+                down = false
+                */
+                console.log("Du kræsjer")
+            }
+
+            //Kjører tegning av fjell:
+            drawMountain()
+            //fortsett requestAnimationFrame
+            requestAnimationFrame(drawElements)
+        }
+
+        //kjør requestAnimationFrame første gang ved innlasting
+        requestAnimationFrame(drawElements)
+    </script>
+</body>
+</html>

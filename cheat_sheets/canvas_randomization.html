@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas: Animation with controlled movement</title>
+    <style>
+        body {
+            background: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="animarea"></canvas>
+
+    <script>
+        //gjøre klart canvas:
+        const canvas = document.getElementById("animarea")
+        canvas.width = 1000
+        canvas.height = 400
+        //hent kontekst
+        const ctx = canvas.getContext("2d")
+
+        //Funksjon for random verdi:
+        function randomMinMax(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+
+        //Funksjon som tegner firkanten
+        const hero = {
+            fillcolor: "green",
+            width: 50,
+            height: 50
+        }
+        function drawRect() {
+            ctx.beginPath()
+            ctx.fillStyle = hero.fillcolor
+            ctx.fillRect(x, y, hero.width, hero.height)
+            ctx.closePath()
+        }
+
+        //Gjør klar en array for å lagre fjell
+        const mountains = []
+
+        //Løkke som går 5 ganger, og oppretter et fjell med tilfeldige verdier hver runde løkken går
+        //https://lms.webtricks.blog/kurs/innforing-i-programmering/10-canvas-animasjon/randomisering-tilfeldig-utvalg-verdi
+        for(let antallFjell = 0; antallFjell < 5; antallFjell++) {
+            //Setter objektet inn i arrayen mountains
+            mountains.push({
+                color: "gray",
+                x: randomMinMax(0, canvas.width),
+                y: randomMinMax(0, canvas.height),
+                width: randomMinMax(100, 400),
+                height: randomMinMax(50, 200)
+            })
+        }
+
+        console.log(mountains)
+        //Funksjon som tegner fjell, tar imot parametere for å kunne sende inn verdier fra arrayen mountains
+        function drawMountain(x,y,w,h) {
+            ctx.beginPath()
+            ctx.fillStyle = "gray"
+            ctx.fillRect(x, y, w, h)
+            ctx.closePath()
+        }
+
+        //startpunkt for x og y i tegning av firkant
+        let x = 0
+        let y = 0
+        //startpunkt for retning (ingen retning før tastetrykk)
+        //https://lms.webtricks.blog/kurs/innforing-i-programmering/10-canvas-animasjon/styre-bevegelse
+        let left = false
+        let right = false
+        let up = false
+        let down = false
+        //starthastighet
+        let boost = 1
+
+        //Registrere knappetrykk
+        //https://lms.webtricks.blog/kurs/innforing-i-programmering/8-brukerinput/tastaturinput
+        document.addEventListener("keydown", event => {
+                //Hvis event.key er en piltast, set verdien av direction i henhold til pil
+                if(event.key === "ArrowRight") {
+                    right = true
+                }
+                if(event.key === "ArrowLeft") {
+                    left = true
+                }
+                if(event.key === "ArrowUp") {
+                    up = true
+                }
+                if(event.key === "ArrowDown") {
+                    down = true
+                }
+
+                //Hvis s er trykket ned, sett boost til 5 (flytt flere pixler per opptegning)
+                if(event.key === "s") {
+                    boost = 5
+                }
+            }
+        )
+        //Registrere at vi slipper opp knappetrykk:
+        //https://lms.webtricks.blog/kurs/innforing-i-programmering/8-brukerinput/tastaturinput
+        document.addEventListener("keyup", event => {
+            //Når vi slipper opp en piltast, sett direction til false for å slutte å bevege elementet.
+            event.key === "ArrowRight" ? right = false : null
+            event.key === "ArrowLeft" ? left = false : null
+            event.key === "ArrowUp" ? up = false : null
+            event.key === "ArrowDown" ? down = false : null
+            //Når s-tasten slippes, sett boost tilbake til 1
+            if(event.key === "s") {
+                boost = 1
+            }
+        })
+        
+        //samlefunksjon for å tømme canvas og tegne opp elementer
+        function drawElements() {
+            //tøm hele canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            //tegn firkant
+            drawRect()
+            //oppdater posisjon til neste tegning
+            if(right === true) { x = x + boost }
+            if(left === true) { x = x - boost }
+            if(up === true) { y = y - boost }
+            if(down === true) { y = y + boost }
+
+            //Klargjør variabel for å lagre kollisjon
+            let collision = false
+            //Kjører tegning av fjell:
+            //Gå gjennom hele mountains-arrayen, lagre hvert object i mountain:
+            mountains.map(mountain => {
+                //Kjør kollisjonssjekk for hvert fjell mot helten
+                //https://lms.webtricks.blog/kurs/innforing-i-programmering/10-canvas-animasjon/kollisjonsdeteksjon
+                if(
+                    x + hero.width > mountain.x && 
+                    x < mountain.x + mountain.width && 
+                    y + hero.height > mountain.y && 
+                    y < mountain.y + mountain.height
+                ) {
+                    //Hvis kollisjon, set colloision til true
+                    collision = true
+                }
+                //Tegn opp fjell med verdier fra objectet
+                drawMountain(mountain.x, mountain.y, mountain.width, mountain.height)
+            })
+
+            //Hvis kollisjon er detektert, tøm canvas og skriv ut game over
+            if(collision) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                ctx.font = "70px Arial"
+                ctx.fillStyle = "red"
+                ctx.fillText("Game Over!", 400, 150)
+            }
+            //Hvis helten når høyre side av canvas, tøm canvas og skriv ut vinnertekst
+            if(x + hero.width > canvas.width) {
+                ctx.clearRect(0,0, canvas.width, canvas.height)
+                ctx.font = "70px Arial"
+                ctx.fillStyle = "green"
+                ctx.fillText("Du vant!", 400, 150)
+            }
+            //fortsett requestAnimationFrame
+            requestAnimationFrame(drawElements)
+        }
+
+        //kjør requestAnimationFrame første gang ved innlasting
+        requestAnimationFrame(drawElements)
+    </script>
+</body>
+</html>

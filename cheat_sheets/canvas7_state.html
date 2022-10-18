@@ -33,6 +33,17 @@
             return Math.floor(Math.random() * (max - min + 1) + min)
         }
 
+        //Variabel som inneholder styrken til skjoldet
+        let shield = 3
+        //Tilstandsvariabel: Kan skjold mistes?
+        //Brukes for å stoppe nedtelling av skjold ved kollisjon
+        let canChangeShield = true
+        //Funksjon for å skrive ut tekst og verdi av skjold
+        function shieldPrint() {
+            ctx.font = "30px Arial"
+            ctx.fillText("Shield: " + shield, 800, 40)
+        }
+
         //Funksjon som tegner firkanten
         const hero = {
             fillcolor: "green",
@@ -124,6 +135,8 @@
         function drawElements() {
             //tøm hele canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height)
+            //skriv ut Shield-text:
+            shieldPrint()
             //tegn firkant
             drawRect()
             //oppdater posisjon til neste tegning
@@ -153,13 +166,32 @@
                 drawMountain(mountain.x, mountain.y, mountain.width, mountain.height)
             })
 
-            //Hvis kollisjon er detektert, tøm canvas og skriv ut game over
+            //Hvis kollisjon er detektert:
             if(collision) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                //Hvis tilstanden er "kan miste skjold"
+                if(canChangeShield === true) {
+                    //Trekk 1 fra skjold
+                    shield--
+                    //Flytt helten tilbake til startpunktet
+                    x = 0
+                    y = 0
+                }
+                //...og sett tilstanden til "kan ikke miste skjold"
+                //Dette skal gjelde helt til det ikke er kollisjon lenger
+                canChangeShield = false
+            } else {
+                //Når det ikke er kollisjon lenger, sett tilstanden til å kunne miste skjold
+                canChangeShield = true
+            }
+
+            //Sjekke etter game over, nå når det ikke er mer skjold igjen:
+            if(shield <= 0) {
+               ctx.clearRect(0, 0, canvas.width, canvas.height)
                 ctx.font = "70px Arial"
                 ctx.fillStyle = "red"
-                ctx.fillText("Game Over!", 400, 150)
+                ctx.fillText("Game Over!", 400, 150) 
             }
+
             //Hvis helten når høyre side av canvas, tøm canvas og skriv ut vinnertekst
             if(x + hero.width > canvas.width) {
                 ctx.clearRect(0,0, canvas.width, canvas.height)

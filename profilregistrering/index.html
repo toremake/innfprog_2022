@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrer din profil</title>
+</head>
+<body>
+    <p><label for="fullname">Fullt navn</label><input type="text" maxlength="50" minlength="2" name="fullname" id="fullname"></p>
+    <p><label for="email">E-postadresse</label><input type="email" name="email" id="email"></p>
+    <p><label for="image">Profilbilde</label><input type="file" accept="image/jpeg, image/jpg, image/png" name="image" id="image"></p>
+    <p><label for="bio">Biografi</label><textarea name="bio" id="bio"></textarea></p>
+    <p><button id="register" onclick="validate()">Registrer</button></p>
+    <hr />
+    <h2>Profiler</h2>
+    <section id="profiles"></section>
+
+
+    <script>
+        //Funksjon for å validere e-post
+        //https://www.w3resource.com/javascript/form/email-validation.php
+        let errorMessage = "";
+        const validState = {
+            fullname: false,
+            email: false,
+            bio: false
+        }
+
+        //Array med register
+        const register = []
+
+        //Valideringsfunksjon
+        function validate() {
+            const fullname = document.getElementById("fullname").value
+            const email = document.getElementById("email").value
+            const image = document.getElementById("image")
+            const bio = document.getElementById("bio").value
+
+            //Validere navn:
+            //RegEx for space: https://www.geeksforgeeks.org/javascript-regexp-s-metacharacter/
+            //Alternativ: Sjekke etter space i tekststreng: fullname.indexOf(" ") === -1, ref https://www.w3schools.com/java/ref_string_indexof.asp
+            /*if(fullname.length > 50 || fullname.length < 3 || fullname.indexOf(" ") === -1) {
+                errorMessage += "Fullt navn kan ikke overstige 50 bokstaver og må inneholde minimum to navn. "
+                return false
+            } else {
+                return true
+            }*/
+
+            if(fullname.length < 50 && fullname.length > 2 && fullname.indexOf(" ") !== -1) {
+                console.log("Navn validerer")
+                validState.fullname = true
+            } else {
+                console.log("Navn validerer IKKE")
+                errorMessage += "Fullt navn kan ikke overstige 50 bokstaver og må inneholde minimum to navn. "
+                validState.fullname = false
+            }
+
+            //Validere e-post
+            //RegEx for å sjekke valid e-post: https://www.w3resource.com/javascript/form/email-validation.php
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if(email.match(mailformat)) {
+                validState.email = true;
+            } else {
+                errorMessage += "Du må oppgi en gyldig e-postadresse. "
+                validState.email = false
+            }
+
+            //Validere bilde
+            /*const reader = new FileReader()
+            reader.readAsDataURL(this.files[0])
+            console.log(reader.result)*/
+
+
+            //Validere bio
+            if(bio.length > 49 && bio.length < 501) {
+                console.log("Bio validerer")
+                validState.bio = true
+            } else {
+                console.log("Bio validerer IKKE")
+                validState.bio = false
+            }
+
+            //Hvis alle elementer er validert
+            //1) Lagre i en array
+            //2) Skrive ut profilen
+            if(validState.fullname === true && validState.email === true && validState.bio === true) {
+                register.push(
+                    {
+                        fullname: fullname, 
+                        email: email,
+                        bio: bio
+                    }
+                )
+
+                document.getElementById("profiles").innerHTML += `
+                <article>
+                    <h3>${fullname}</h3>
+                    <p>${email}</p>
+                    <p>${bio}</p>
+                    <button onclick="edit(${register.length - 1})">Rediger profil</button>
+                <article>`
+            }
+        }
+    </script>
+</body>
+</html>

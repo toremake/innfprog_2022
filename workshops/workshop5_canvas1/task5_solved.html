@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Workshop 5: Canvas</title>
+    <link href="task5.css" rel="stylesheet" media="all">
+    <style>
+        #gamearea-canvas {
+            background: #000;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="gamearea">
+        <section id="hud-top">
+            <div id="lives"><img src="img/potions.png" /> <span id="lives-count">0</span></div>
+            <div id="coins"><img src="img/coins.png" /> <span id="coins-count">0</span></div>
+            <div id="player">
+                <img src="img/person.png" />
+                <span id="playername">Marius</span>
+            </div>
+            <div id="points"><img src="img/points.png" /> <span id="points-count">0</span></div>
+            <div id="level">Level: <span id="level-count">0</span></div>
+        </section>
+        <canvas id="gamearea-canvas"></canvas>
+        <aside id="hud-inventory">
+            <h3>Armory</h3>
+            <table id="showhide">
+                <!-- 
+                JavaScript vil fylle tabellen
+                -->
+            </table>
+        </aside>
+    </div>
+
+    <script>
+        //WS3, OPPG1:
+        const gameConfig = {
+            playerName: "Hiof",
+            coins: 50,
+            lives: 3,
+            level: 1
+        }
+        //PLAYERNAME - INITITAL PRINT
+        document.getElementById("playername").innerHTML = gameConfig.playerName
+
+        //WS5.1: Initiere Canvas:
+        const canvas = document.getElementById("gamearea-canvas")
+        canvas.width = 800
+        canvas.height = 600
+        const ctx = canvas.getContext("2d")
+        
+        //COINS - INITIAL PRINT
+        let coinsPrint = ""
+        if(gameConfig.coins > 0) {
+            coinsPrint = gameConfig.coins
+        } else {
+            coinsPrint = "Collect some coins"
+        }
+        document.getElementById("coins-count").innerHTML = coinsPrint
+        
+        //LIVES - INITIAL PRINT
+        const livesPrint = document.getElementById("lives-count")
+        livesPrint.innerHTML = gameConfig.lives
+        if(gameConfig.lives < 2) {
+            livesPrint.style.color = "red"
+        }
+
+        //LEVEL - INITIAL PRINT
+        document.getElementById("level-count").innerHTML = gameConfig.level
+
+        //ARMORY - INITIAL PRINT
+       //WS3, OPPG. 5
+       const armory = [
+            {
+                weaponName: "Longsword",
+                weaponIcon: "longsword",
+                level: 3,
+                value: 5
+            },
+            {
+                weaponName: "Warhammer",
+                weaponIcon: "warhammer",
+                level: 12,
+                value: 15
+            },
+            {
+                weaponName: "Battleaxe",
+                weaponIcon: "battleaxe",
+                level: 0,
+                value: 20
+            },
+            {
+                weaponName: "Armour",
+                weaponIcon: "armour",
+                level: 1,
+                value: 25
+            }
+        ]
+        //Sjekke strukturen via console.log
+        console.log(armory)
+        //Gjøre klar en variabel for armory-HTML-rader
+        let armoryHTML = ""
+        //Gjøre klar en variabel for å legge sammen armory-poeng
+        let armoryPoints = 0
+        //Løpe gjennom armory-arrayen med map, og lage HTML
+        armory.map(weapon => {
+                //Hvis våpen-level er større enn 0, legg til HTML-en for våpenraden
+                weapon.level > 0 ? armoryHTML += `<tr>
+                    <td><img src="img/${weapon.weaponIcon}.png" /> ${weapon.weaponName}</td>
+                    <td ${weapon.level > 9 ? `class="gold"` : null}>${weapon.level}</td>
+                </tr>` : null
+                //Legg level * value for våpenet til armoryPonts
+                armoryPoints += weapon.level * weapon.value
+        })
+        //Skrive ut armoryHTML til armory-tabellen i HTML-delen
+        document.getElementById("showhide").innerHTML = armoryHTML
+
+        //POINTS - INITIAL PRINT
+        //WS3, Oppg 6: Oppdatert points med verdi fra gameConfig-objektet og utregning via armoryPoints
+        let points = (gameConfig.coins * 5) + armoryPoints
+        document.getElementById("points-count").innerHTML = points
+
+        //RandomMinMax-funksjon:
+        function randomMinMax(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+
+        const enemy = {
+            width: 20,
+            height: 60,
+            x: 0,
+            y: randomMinMax(0, canvas.height - 60),
+            color: "#b61010"
+        }
+        //WS5, 2: Tegne en fiende
+        //WS5, 3: Samle tegning i en funksjon
+        function drawEnemy() {
+            ctx.beginPath()
+            ctx.fillStyle = enemy.color
+            ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height)
+            ctx.closePath()
+        }
+
+        //Variabel for coinRadius:
+        const coinRadius = 5;
+        //WS5, 5: Tegne opp gullmynter
+        const coinsArray = []
+        //For-løkke for å dytte fem mynt-posisjoner inn i arrayen
+        //https://lms.webtricks.blog/kurs/innforing-i-programmering/lokker/for-lokker
+        for(let teller = 1; teller <= 5; teller++) {
+            coinsArray.push({
+                x: randomMinMax(coinRadius, canvas.width - coinRadius),
+                y: randomMinMax(coinRadius, canvas.height - coinRadius)
+            })
+        }
+        console.log(coinsArray)
+
+
+        function drawElements() {
+            //Tømme canvas:
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            //Tegn fienden
+            drawEnemy()
+            //Oppdater fiendens x-verdi:
+            enemy.x = enemy.x + 5
+            //Test for å sjekke om fienden er på utsiden av brettet:
+            if(enemy.x >= canvas.width) {
+                enemy.x = 0
+                enemy.y = randomMinMax(0, canvas.height - enemy.height)
+                console.log("Fienden er utenfor canvas. X: " + enemy.x)
+
+
+            }
+            //WS5,5: Tegne opp gullmynter
+            coinsArray.map(pos => {
+                ctx.beginPath()
+                ctx.fillStyle = "gold"
+                ctx.arc(pos.x, pos.y, coinRadius, 0, 2 * Math.PI)
+                ctx.fill()
+                ctx.closePath()
+
+                //Her må vi sjekke kollisjon med helten.
+                //Hvis kollisjon: Gi ny X og Y-posisjon, og oppdater poeng/pengeteller
+            })
+            //Tegn neste frame:
+            requestAnimationFrame(drawElements)
+        }
+
+        drawElements()
+        
+    </script>
+</body>
+</html>

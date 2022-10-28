@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Workshop 6: Canvas</title>
+    <title>JS Workshop 5: Canvas</title>
     <link href="task6.css" rel="stylesheet" media="all">
     <style>
         #gamearea-canvas {
@@ -41,9 +41,10 @@
         //WS3, OPPG1:
         const gameConfig = {
             playerName: "Hiof",
-            coins: 50,
+            coins: 0,
             lives: 3,
-            level: 1
+            level: 1,
+            canLooseLife: true
         }
         //PLAYERNAME - INITITAL PRINT
         document.getElementById("playername").innerHTML = gameConfig.playerName
@@ -55,13 +56,16 @@
         const ctx = canvas.getContext("2d")
         
         //COINS - INITIAL PRINT
-        let coinsPrint = ""
-        if(gameConfig.coins > 0) {
-            coinsPrint = gameConfig.coins
-        } else {
-            coinsPrint = "Collect some coins"
+        function coinPrint() {
+            let coinsPrint = ""
+            if(gameConfig.coins > 0) {
+                coinsPrint = gameConfig.coins
+            } else {
+                coinsPrint = "Collect some coins"
+            }
+            document.getElementById("coins-count").innerHTML = coinsPrint
         }
-        document.getElementById("coins-count").innerHTML = coinsPrint
+        
         
         //LIVES - INITIAL PRINT
         const livesPrint = document.getElementById("lives-count")
@@ -122,8 +126,11 @@
 
         //POINTS - INITIAL PRINT
         //WS3, Oppg 6: Oppdatert points med verdi fra gameConfig-objektet og utregning via armoryPoints
-        let points = (gameConfig.coins * 5) + armoryPoints
-        document.getElementById("points-count").innerHTML = points
+        function updatePoints() {
+            let points = (gameConfig.coins * 5) + armoryPoints
+            document.getElementById("points-count").innerHTML = points
+        }
+        
 
         //RandomMinMax-funksjon:
         function randomMinMax(min, max) {
@@ -145,6 +152,47 @@
             ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height)
             ctx.closePath()
         }
+
+        //WS6,1: Gjøre klar helt
+        const hero = {
+            color: "lime",
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 20,
+            speed: 2
+        }
+
+        //Funksjon som tegner helten
+        function drawHero() {
+            ctx.beginPath()
+            ctx.fillStyle = hero.color
+            ctx.arc(hero.x, hero.y, hero.radius, 0, 2 * Math.PI)
+            ctx.fill()
+            ctx.closePath()
+        }
+
+        //WS6,2: Gjøre klar for flytting av helten:
+        let left = false
+        let right = false
+        let up = false
+        let down = false
+
+        //Lage callback-funksjon for addEventListener:
+        function checkPressedButton(event) {
+            event.key === "w" ? up = true : null
+            event.key === "s" ? down = true : null
+            event.key === "a" ? left = true : null
+            event.key === "d" ? right = true : null
+        }
+
+        //Lytte etter tastetrykk:
+        document.addEventListener("keydown", checkPressedButton)
+        document.addEventListener("keyup", event => {
+            event.key === "w" ? up = false : null
+            event.key === "s" ? down = false : null
+            event.key === "a" ? left = false : null
+            event.key === "d" ? right = false : null
+        })
 
         //Variabel for coinRadius:
         const coinRadius = 5;
@@ -173,9 +221,33 @@
                 enemy.x = 0
                 enemy.y = randomMinMax(0, canvas.height - enemy.height)
                 console.log("Fienden er utenfor canvas. X: " + enemy.x)
-
-
             }
+
+            //Tegn helt:
+            drawHero()
+            //Flytt helt:
+            up ? hero.y = hero.y - hero.speed : null
+            down ? hero.y = hero.y + hero.speed : null
+            left ? hero.x = hero.x - hero.speed : null
+            right ? hero.x = hero.x + hero.speed : null
+
+            //WS6,3: Sjekke kollisjon mellom helt og fiende:
+            if(
+                hero.x + hero.radius > enemy.x && 
+                hero.x - hero.radius < enemy.x + enemy.width && 
+                hero.y - hero.radius < enemy.y + enemy.height && 
+                hero.y + hero.radius > enemy.y
+            ) {
+                //Forhindre å miste mange liv (kollisjon skjer over flere frames)
+                if(gameConfig.canLooseLife === true) {
+                    gameConfig.lives = gameConfig.lives - 1
+                    document.getElementById("lives-count").innerHTML = gameConfig.lives
+                }
+                gameConfig.canLooseLife = false
+            } else {
+                gameConfig.canLooseLife = true
+            }
+
             //WS5,5: Tegne opp gullmynter
             coinsArray.map(pos => {
                 ctx.beginPath()
@@ -186,7 +258,34 @@
 
                 //Her må vi sjekke kollisjon med helten.
                 //Hvis kollisjon: Gi ny X og Y-posisjon, og oppdater poeng/pengeteller
+                if(
+                    pos.x - coinRadius < hero.x + hero.radius && 
+                    pos.x + coinRadius > hero.x - hero.radius && 
+                    pos.y - coinRadius < hero.y + hero.radius && 
+                    pos.y + coinRadius > hero.y - hero.radius
+                ) {
+                    pos.x = randomMinMax(coinRadius, canvas.width - coinRadius)
+                    pos.y = randomMinMax(coinRadius, canvas.height - coinRadius)
+                    gameConfig.coins = gameConfig.coins + 1
+                    //Utskrift oppdateres av funksjon lenger ned i koden
+                }
             })
+
+            //WS6, 5.1 (Løst litt annerledes enn oppgaveteskten)
+            if(gameConfig.lives === 0) {
+                ctx.font = "60px Arial"
+                ctx.fillStyle = "red"
+                ctx.fillText("Game Over", canvas.width / 2 - 200, 250)
+                //Stopp spilleren fra å kunne bevege seg
+                document.removeEventListener("keydown", checkPressedButton)
+                //Forhindre at spiller mister flere liv (gameConfig.lives kan ikke bli mindre enn 0)
+                gameConfig.canLooseLife = false
+            }
+
+            //Oppdater poeng:
+            updatePoints()
+            //Oppdater grensesnitt for penger:
+            coinPrint()
             //Tegn neste frame:
             requestAnimationFrame(drawElements)
         }
